@@ -11,6 +11,7 @@
     "bespoke-progress": "~0.1.0",
     "bespoke-state": "~0.2.0",
     "prism": "gh-pages",
-    "font-awesome": "~4.0.3"
+    "font-awesome": "~4.0.3",
+    "bespoke-run": "~0.1.1"
   }
 }

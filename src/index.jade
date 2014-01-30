@@ -42,7 +42,7 @@ html
       section
         h2 Instant Gratification
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
 
             client.subscribe("mqtt/demo");
@@ -57,7 +57,7 @@ html
       section
         h2 Pattern Matching
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
 
             client.subscribe("mqtt/+");
@@ -71,12 +71,12 @@ html
 
 
       section
-        h2 This room temperature :)
+        h2 The temperature in my hand
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
 
-            client.subscribe("mqtt/temperature");
+            client.subscribe("sensortag/temperature");
 
             client.on("message", function(topic, payload) {
               alert([topic, payload].join(": "));
@@ -115,7 +115,7 @@ html
         h2 Offline Mode
         h3 First, subscribe with QoS 1 and disconnect
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient({
               clientId: "moscaslides",
               clean: false
@@ -133,7 +133,7 @@ html
         h2 Offline Mode
         h3 Then, someone else publish an important message
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
 
             client.publish("mqtt/offline", "hello world!",
@@ -147,7 +147,7 @@ html
         h2 Offline Mode
         h3 Reconnect to receive the missed messages
         pre
-          code.language-javascript.
+          code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient({
               clientId: "moscaslides",
               clean: false
@@ -226,6 +226,8 @@ html
     script(src='bower_components/bespoke-hash/dist/bespoke-hash.min.js')
     script(src='bower_components/bespoke-progress/dist/bespoke-progress.min.js')
     script(src='bower_components/bespoke-state/dist/bespoke-state.min.js')
+    script(src='bower_components/bespoke-run/dist/bespoke-run.min.js')
     script(src='bower_components/prism/prism.js')
+    script(src='scripts/bundle.js')
     script(src='scripts/main.js')
     // endbuild
