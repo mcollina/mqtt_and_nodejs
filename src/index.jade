@@ -1,0 +1,231 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title MQTT and Node.js
+
+    // build:css styles/styles.css
+    //- Check out 'src/bower_components/prism/themes/' for available themes
+    link(rel='stylesheet', type='text/css', href='bower_components/prism/themes/prism-tomorrow.css')
+    link(rel="stylesheet", type='text/css', href="bower_components/font-awesome/css/font-awesome.min.css")
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+    // endbuild
+
+  body
+
+    article
+
+      section
+        h1 MQTT and Node.js
+        h3 Messaging in the Internet of Things
+        h3 <a href="http://twitter.com/matteocollina">@matteocollina</a>
+
+      section.full-imgs
+        h2 MQTT
+        img(src="images/pubsub.png")
+
+      section
+        h2 MQTT.js
+        ul
+          li 20k packets/second parser
+          li Stream based
+          li High-Level Client API
+          li Low-Level Server
+          li Build with&nbsp;
+            i.fa.fa-heart
+            | &nbsp;by&nbsp;
+            a(href="http://github.com/adamvr") @adamvr
+            | &nbsp;and&nbsp;
+            a(href="http://github.com/mcollina") @mcollina
+
+      section
+        h2 Instant Gratification
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("mqtt/demo");
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload].join(": "));
+              client.end();
+            });
+
+            client.publish("mqtt/demo", "hello world!");
+
+      section
+        h2 Pattern Matching
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("mqtt/+");
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload].join(": "));
+              client.end();
+            });
+
+            client.publish("mqtt/demo", "hello world!");
+
+
+      section
+        h2 This room temperature :)
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("mqtt/temperature");
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload].join(": "));
+              client.end();
+            });
+
+      section
+        h2 How can it work on a Browser?
+        ul
+          li Works on top of WebSocket
+          li MQTT over Websocket is 'standard'
+          li Thanks to&nbsp;
+            a(href="http://github.com/substack") @substack
+            | &nbsp;for Browserify
+
+      section
+        h2 Mosca
+        h3 MQTT broker in Node.js
+        ul
+          li
+            a(href="http://npm.im/mosca") http://npm.im/mosca
+          li Standalone usage, through `$ mosca`
+          li Embeddable in your app
+          li Authentication APIs
+          li Supports AMQP, Mongo, and MQTT as pub/sub backends
+          li Needs a DB, such as LevelDB, Mongo, or Redis
+          li Support websockets
+          li Fast, 10k+ messages routed per second
+          li Scalable, 10k+ concurrent connections
+
+      section
+        h2 Benchmark
+        img(src="images/moscabench.svg")
+
+      section
+        h2 Offline Mode
+        h3 First, subscribe with QoS 1 and disconnect
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient({
+              clientId: "moscaslides",
+              clean: false
+            });
+
+            client.subscribe("mqtt/offline", { qos: 1 },
+              function() {
+
+              alert("subscribe done!");
+              // called when the subscribe is successful
+              client.end();
+            });
+
+      section
+        h2 Offline Mode
+        h3 Then, someone else publish an important message
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient();
+
+            client.publish("mqtt/offline", "hello world!",
+              function() {
+
+              alert("publish done!");
+              client.end();
+            });
+
+      section
+        h2 Offline Mode
+        h3 Reconnect to receive the missed messages
+        pre
+          code.language-javascript.
+            var client = mqtt.createClient({
+              clientId: "moscaslides",
+              clean: false
+            });
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload.toString()].join(": "));
+
+              setTimeout(client.end.bind(client), 1000);
+            });
+
+      section
+        h2 Does Offline Mode Scale?
+        img(src="images/moscavsmosquitto.svg")
+
+      section.full-imgs
+        h2 Do you need a REST API?
+        ul
+          li Check out&nbsp;
+            a(href="http://eclipse.org/ponte") Ponte
+            | &nbsp;at&nbsp;
+            a(href="http://eclipse.org/ponte") http://eclipse.org/ponte
+
+          li $ npm install ponte -g
+
+          li
+            a(href="http://eclipse.org/ponte")
+              img(src="images/ponte.png")
+
+      section
+        h2 Ponte API
+        ul
+          li http://&#60;your ponte&#62;/resources/&#60;your thing&#62;
+          li coap://&#60;your ponte&#62;/r/&#60;your thing&#62;
+          li mqtt(s)://&#60;your ponte&#62;/&#60;your thing&#62;
+
+      section.full-imgs
+        img(src='images/me.png')
+        h3
+          a(href='http://github.com/mcollina') http://github.com/mcollina
+
+      section
+        h2 Node.js Basics
+        h3 Un corso Node.js in Italiano
+        ul
+          li
+            a(href="http://www.insana-academy.com/node-js-basics/") http://www.insana-academy.com/node-js-basics/
+          li Milano 18-19 Maggio 2014
+          li Events, Streams, Buffer, HTTP, Ereditarietà
+          li Testing con Mocha, Chai e Sinon
+          li Express
+          li WebSocket
+          li Grunt
+          li MongoDB and Mongoose
+
+      section
+        h3 JavaScript Best Practices
+        a(href='http://www.jsbestpractices.it')
+          img(src='images/jsbestpractices.jpg', style='width: 250px')
+
+      section
+        h1 Thanks!
+        br
+        p If you need help with node.js:
+        br
+        h3 <a href="mailto:hello@matteocollina.com">hello@matteocollina.com</a>
+        h3 <a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter
+        h3 <a href="http://www.matteocollina.com">www.matteocollina.com</a>
+
+    // build:js scripts/scripts.js
+    script(src='bower_components/bespoke.js/dist/bespoke.min.js')
+    script(src='bower_components/bespoke-keys/dist/bespoke-keys.min.js')
+    script(src='bower_components/bespoke-touch/dist/bespoke-touch.min.js')
+    script(src='bower_components/bespoke-bullets/dist/bespoke-bullets.min.js')
+    script(src='bower_components/bespoke-scale/dist/bespoke-scale.min.js')
+    script(src='bower_components/bespoke-hash/dist/bespoke-hash.min.js')
+    script(src='bower_components/bespoke-progress/dist/bespoke-progress.min.js')
+    script(src='bower_components/bespoke-state/dist/bespoke-state.min.js')
+    script(src='bower_components/prism/prism.js')
+    script(src='scripts/main.js')
+    // endbuild
