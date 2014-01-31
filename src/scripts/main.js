@@ -6,9 +6,6 @@ mqtt.createClient = function(opts) {
   return this.createClientBase("ws://localhost:3000", opts);
 };
 
-(function() {
-});
-
 bespoke.plugins.mqtt = function(deck) {
   var slider = mqtt.createClient();
   slider.subscribe('deck/next')
@@ -16,9 +13,7 @@ bespoke.plugins.mqtt = function(deck) {
 
   slider.on('message', function(topic) {
     var command = topic.replace('deck/', '')
-    console.log('received', command);
-    if (deck[command])
-      deck[command]()
+    if (deck[command]) deck[command]()
   });
 };
 

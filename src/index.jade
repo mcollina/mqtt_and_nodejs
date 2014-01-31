@@ -69,6 +69,14 @@ html
 
             client.publish("mqtt/demo", "hello world!");
 
+      section
+        h2 How can it work on a Browser?
+        ul
+          li Works on top of WebSocket
+          li MQTT over Websocket is 'standard'
+          li Thanks to&nbsp;
+            a(href="http://github.com/substack") @substack
+            | &nbsp;for Browserify
 
       section
         h2 The temperature in my hand
@@ -84,13 +92,12 @@ html
             });
 
       section
-        h2 How can it work on a Browser?
+        h2 Slide control using MQTT
         ul
-          li Works on top of WebSocket
-          li MQTT over Websocket is 'standard'
-          li Thanks to&nbsp;
-            a(href="http://github.com/substack") @substack
-            | &nbsp;for Browserify
+          li A TI SensorTag is connected via BLE to a node program
+          li The button press events are published to topics 'deck/{next|prev}'
+          li This web app is connected via WebSocket to the MQTT broker..
+          li ..and triggers the sliding API.
 
       section
         h2 Mosca
