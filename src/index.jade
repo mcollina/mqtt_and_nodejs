@@ -204,6 +204,25 @@ html
             i.fa.fa-ban.fa-5x.fa-stack-2x.text-danger
 
       section
+        h2 All together!
+        pre
+          code(data-bespoke-run).language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("groove/slider");
+            client.subscribe("groove/button");
+
+            client.on("message", function(topic, payload) {
+              if (topic === "groove/slider")
+                client.publish('groove/ledbar', JSON.stringify({
+                  value: JSON.parse(payload).value / 10
+                }))
+              if (topic === "groove/button")
+                return client.end();
+            });
+        a(data-bespoke-run) Run!
+
+      section
         h2 Mosca
         h3 MQTT broker in Node.js
         ul
