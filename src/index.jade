@@ -187,6 +187,23 @@ html
           input#ledbar(type="number")
 
       section
+        h2 Sensing a slider
+        p
+          i.fa.fa-chevron-circle-right.fa-5x
+          | &nbsp;
+          span#slider.sensor-data
+
+      section
+        h2 Controlling the leds!
+        div(style="clear: both")
+          i#led-red.fa.fa-lightbulb-o
+          i#led-green.fa.fa-lightbulb-o
+          i#led-blue.fa.fa-lightbulb-o
+          span#led-disable.fa-stack
+            i.fa.fa-lightbulb-o.fa-stack-1x
+            i.fa.fa-ban.fa-5x.fa-stack-2x.text-danger
+
+      section
         h2 Mosca
         h3 MQTT broker in Node.js
         ul

@@ -17,6 +17,7 @@ function buildUpdater(key) {
 var updateHumidity = buildUpdater('#humidity')
 var updateIrObject = buildUpdater('#ir-object')
 var updateIrAmbient = buildUpdater('#ir-ambient')
+var updateSlider = buildUpdater('#slider')
 
 bespoke.plugins.mqtt = function(deck) {
   var client = mqtt.createClient();
@@ -24,6 +25,7 @@ bespoke.plugins.mqtt = function(deck) {
   client.subscribe('deck/prev')
   client.subscribe('sensortag/humidity')
   client.subscribe('sensortag/ir/+')
+  client.subscribe('groove/slider')
 
   client.on('message', function(topic, payload) {
     var command = topic.replace('deck/', '')
@@ -38,14 +40,14 @@ bespoke.plugins.mqtt = function(deck) {
       updateIrObject(payload)
     }
 
-    if (topic == 'sensortag/ir/ambient') {
-      updateIrAmbient(payload)
+    if (topic == 'groove/slider') {
+      updateSlider(JSON.parse(payload).value)
     }
 
   });
 
 
-  (function () {
+  ;(function () {
     var elem = document.querySelector('#ledbar')
     elem.onchange = function() {
       var value = parseInt(elem.value)
@@ -53,6 +55,36 @@ bespoke.plugins.mqtt = function(deck) {
         value: value
       })
       client.publish('groove/ledbar', payload)
+    }
+  })()
+
+  function wireLed(htmlId, num, red, green, blue) {
+    var elem = document.querySelector(htmlId)
+    elem.onclick = function() {
+      var payload = JSON.stringify({
+        r: red,
+        g: green,
+        b: blue
+      })
+      client.publish('groove/led/' + num, payload)
+    }
+  }
+
+  wireLed('#led-red', 1, 255, 0, 0)
+  wireLed('#led-green', 2, 0, 255, 0)
+  wireLed('#led-blue', 3, 0, 0, 255)
+
+  ;(function () {
+    var elem = document.querySelector('#led-disable')
+    elem.onclick = function() {
+      var payload = JSON.stringify({
+        r: 0,
+        g: 0,
+        b: 0
+      })
+      client.publish('groove/led/1', payload)
+      client.publish('groove/led/2', payload)
+      client.publish('groove/led/3', payload)
     }
   })()
 };
