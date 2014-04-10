@@ -116,6 +116,7 @@ html
         h2 How can it work on a Browser?
         ul
           li Works on top of WebSocket
+          li Node.js excels at that :)
           li MQTT over Websocket is 'standard'
           li Thanks to&nbsp;
             a(href="http://github.com/substack") @substack
@@ -134,13 +135,42 @@ html
               client.end();
             });
 
+      section(data-bespoke-state='sensortag')
+        h2 SensorTag
+        ul.bullet
+          li Bluetooth Low Energy
+          li Works with your iPhone, Android or Laptop
+          li It has its own node.js module!
+          li works even as an iBeacon
+          li 25$ shipping included..
+          li by Texas Instruments
+
       section
         h2 Slide control using MQTT
-        ul
-          li A TI SensorTag is connected via BLE to a node program
+        ul.bullet
+          li The SensorTag is connected via BLE to a node program
           li The button press events are published to topics 'deck/{next|prev}'
           li This web app is connected via WebSocket to the MQTT broker..
           li ..and triggers the sliding API.
+
+      section
+        h2 A humidity sensor!
+        p
+          i.fa.fa-umbrella.fa-5x
+          | &nbsp;
+          span#humidity.sensor-data
+          | &nbsp; %RH
+
+      section
+        h2 Infrared Temperature Sensor
+        p
+          | Object: &nbsp;
+          span#ir-object.sensor-data
+          | &nbsp; °C
+        p
+          | Ambient: &nbsp;
+          span#ir-ambient.sensor-data
+          | &nbsp; °C
 
       section
         h2 Mosca

@@ -24,7 +24,13 @@ SensorTag.discover(function(sensorTag) {
 
       sensorTag.enableHumidity(function() {
         sensorTag.notifyHumidity(function() {
-          debug('umidity correctly setted up')
+          debug('humidity correctly setted up')
+        })
+      })
+
+      sensorTag.enableIrTemperature(function() {
+        sensorTag.notifyIrTemperature(function() {
+          debug('ir temperature correctly setted up')
         })
       })
     })
@@ -46,5 +52,10 @@ SensorTag.discover(function(sensorTag) {
   sensorTag.on('humidityChange', function(temperature, humidity) {
     client.publish('sensortag/temperature', '' + temperature)
     client.publish('sensortag/humidity', '' + humidity)
+  })
+
+  sensorTag.on('irTemperatureChange', function(objectTemperature, ambientTemperature) {
+    client.publish('sensortag/ir/object', '' + objectTemperature)
+    client.publish('sensortag/ir/ambient', '' + ambientTemperature)
   })
 })
