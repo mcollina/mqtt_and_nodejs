@@ -19,13 +19,13 @@ var updateIrObject = buildUpdater('#ir-object')
 var updateIrAmbient = buildUpdater('#ir-ambient')
 
 bespoke.plugins.mqtt = function(deck) {
-  var slider = mqtt.createClient();
-  slider.subscribe('deck/next')
-  slider.subscribe('deck/prev')
-  slider.subscribe('sensortag/humidity')
-  slider.subscribe('sensortag/ir/+')
+  var client = mqtt.createClient();
+  client.subscribe('deck/next')
+  client.subscribe('deck/prev')
+  client.subscribe('sensortag/humidity')
+  client.subscribe('sensortag/ir/+')
 
-  slider.on('message', function(topic, payload) {
+  client.on('message', function(topic, payload) {
     var command = topic.replace('deck/', '')
     if (deck[command])
       return deck[command]()
@@ -43,7 +43,20 @@ bespoke.plugins.mqtt = function(deck) {
     }
 
   });
+
+
+  (function () {
+    var elem = document.querySelector('#ledbar')
+    elem.onchange = function() {
+      var value = parseInt(elem.value)
+      var payload = JSON.stringify({
+        value: value
+      })
+      client.publish('groove/ledbar', payload)
+    }
+  })()
 };
+
 
 bespoke.from('article', {
   mqtt: true,
@@ -56,3 +69,9 @@ bespoke.from('article', {
   progress: true,
   state: true
 });
+
+
+(function() {
+  var form = document.querySelector('form.disabled')
+  form.onsubmit = function() { return false }
+})()
