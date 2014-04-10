@@ -23,8 +23,50 @@ html
         img(src="images/cc_sa.png")
 
       section.full-imgs
+        img(src="images/mqttorg.svg")
+
+      section
+        h2 MQTT
+        ul
+          li publish/subscribe protocol
+          li multiple quality of service level..
+          li ..with at-least-once and exactly-once semantics
+          li low overhead (2 bytes at minimum)
+          li offline messaging
+          li retained messages, like a key/value store
+
+      section.full-imgs
         h2 MQTT
         img(src="images/pubsub.png")
+
+      section(data-bespoke-state='all-black').full-imgs
+        img(src="images/node.svg")
+        ul.bullet
+          li Small core, vibrant community
+          li Extreme modularity
+          li Reimplement everything in Javascript
+
+      section(data-bespoke-state='all-black')
+        h2 Why Node.js matters?
+        ul.bullet
+          li high performance (2x at Paypal)
+          li faster application development (2x at PayPal)
+          li batteries not included
+          li go check out &nbsp;
+            a(href="http://www.nearform.com/nodecrunch/node-js-becoming-go-technology-enterprise") http://www.nearform.com/nodecrunch/node-js-becoming-go-technology-enterprise
+
+      section(data-bespoke-state='batteries')
+        img(src="images/npm.png")
+        ul.bullet
+          li Almost 70.000 modules
+          li 3.685.510 module downloaded per day
+          li Exponential growth
+          li Permissive licenses
+          li How to spot a good module?
+        .copyright
+          a(href="http://500px.com/photo/64986565", style="color: white") http://500px.com/photo/64986565 &nbsp;
+          a(href="http://creativecommons.org/licenses/by/3.0/deed.en_us")
+            img(src="images/cc_attribution.png")
 
       section
         h2 MQTT.js
