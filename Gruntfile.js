@@ -136,6 +136,16 @@ module.exports = function(grunt) {
         src: '**/*'
       }
     },
+    lineending: {
+      dist: {
+        options: {
+          overwrite: true
+        },
+        files: {
+          '': ['public/scripts/bundle.js']
+        }
+      }
+    },
     browserify: {
       dist: {
         files: {
@@ -156,6 +166,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['compile', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin']);
   grunt.registerTask('compile', ['clean', 'concurrent:compile']);
   grunt.registerTask('server', ['compile', 'concurrent:server']);
-  grunt.registerTask('deploy', ['default', 'gh-pages:public']);
+  grunt.registerTask('deploy', ['default', 'lineending', 'gh-pages:public']);
 
 };

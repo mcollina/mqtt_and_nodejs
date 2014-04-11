@@ -24,7 +24,8 @@
     "mac-key-press": "0.0.1",
     "sensortag": "~0.1.7",
     "debug": "~0.7.4",
-    "mqtt": "~0.3.7"
+    "mqtt": "~0.3.7",
+    "grunt-lineending": "~0.2.2"
   },
   "engines": {
     "node": ">=0.8.0"
