@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>MQTT and Node.js</title>
+    <link rel="stylesheet" href="styles/styles.css"/>
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>MQTT and Node.js</h1>
+        <h3>Messaging in the Internet of Things</h3>
+        <h3><a href="http://twitter.com/matteocollina">@matteocollina</a></h3><img src="images/cc_sa.png">
+      </section>
+      <section class="full-imgs"><img src="images/mqttorg.svg"></section>
+      <section>
+        <h2>MQTT</h2>
+        <ul>
+          <li>publish/subscribe protocol</li>
+          <li>multiple quality of service level..</li>
+          <li>..with at-least-once and exactly-once semantics</li>
+          <li>low overhead (2 bytes at minimum)</li>
+          <li>offline messaging</li>
+          <li>retained messages, like a key/value store</li>
+        </ul>
+      </section>
+      <section class="full-imgs">
+        <h2>MQTT</h2><img src="images/pubsub.png">
+      </section>
+      <section data-bespoke-state="all-black" class="full-imgs"><img src="images/node.svg">
+        <ul class="bullet">
+          <li>Small core, vibrant community</li>
+          <li>Extreme modularity</li>
+          <li>Reimplement everything in Javascript</li>
+        </ul>
+      </section>
+      <section data-bespoke-state="all-black">
+        <h2>Why Node.js matters?</h2>
+        <ul class="bullet">
+          <li>high performance (2x at Paypal)</li>
+          <li>faster application development (2x at PayPal)</li>
+          <li>batteries not included</li>
+          <li>go check out &nbsp;<a href="http://www.nearform.com/nodecrunch/node-js-becoming-go-technology-enterprise">http://www.nearform.com/nodecrunch/node-js-becoming-go-technology-enterprise</a></li>
+        </ul>
+      </section>
+      <section data-bespoke-state="batteries"><img src="images/npm.png">
+        <ul class="bullet">
+          <li>Almost 70.000 modules</li>
+          <li>3.685.510 module downloaded per day</li>
+          <li>Exponential growth</li>
+          <li>Permissive licenses</li>
+          <li>How to spot a good module?</li>
+        </ul>
+        <div class="copyright"><a href="http://500px.com/photo/64986565" style="color: white">http://500px.com/photo/64986565 &nbsp;</a><a href="http://creativecommons.org/licenses/by/3.0/deed.en_us"><img src="images/cc_attribution.png"></a></div>
+      </section>
+      <section>
+        <h2>MQTT.js</h2>
+        <ul>
+          <li>20k packets/second parser</li>
+          <li>Stream based</li>
+          <li>High-Level Client API</li>
+          <li>Low-Level Server</li>
+          <li>Build with&nbsp;<i class="fa fa-heart"></i>&nbsp;by&nbsp;<a href="http://github.com/adamvr">@adamvr</a>&nbsp;and&nbsp;<a href="http://github.com/mcollina">@mcollina</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>Instant Gratification</h2>
+        <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient();
+
+client.subscribe("mqtt/demo");
+
+client.on("message", function(topic, payload) {
+  alert([topic, payload].join(": "));
+  client.end();
+});
+
+client.publish("mqtt/demo", "hello world!");
+</code></pre>
+      </section>
+      <section>
+        <h2>Pattern Matching</h2>
+        <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient();
+
+client.subscribe("mqtt/+");
+
+client.on("message", function(topic, payload) {
+  alert([topic, payload].join(": "));
+  client.end();
+});
+
+client.publish("mqtt/demo", "hello world!");
+</code></pre>
+      </section>
+      <section>
+        <h2>Mosca</h2>
+        <h3>MQTT broker in Node.js</h3>
+        <ul>
+          <li><a href="http://npm.im/mosca">http://npm.im/mosca</a></li>
+          <li>Standalone usage, through `$ mosca`</li>
+          <li>Embeddable in your app</li>
+          <li>Authentication APIs</li>
+          <li>Supports AMQP, Mongo, Redis, and MQTT as pub/sub backends</li>
+          <li>Needs a DB, such as LevelDB, Mongo, or Redis</li>
+          <li>Support websockets</li>
+          <li>Fast, 10k+ messages routed per second</li>
+          <li>Scalable, 10k+ concurrent connections</li>
+        </ul>
+      </section>
+      <section>
+        <h2>How can it work on a Browser?</h2>
+        <ul>
+          <li>Works on top of WebSocket</li>
+          <li>Node.js excels at that :)</li>
+          <li>MQTT over Websocket is 'standard'</li>
+          <li>Thanks to&nbsp;<a href="http://github.com/substack">@substack</a>&nbsp;for Browserify</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Benchmark</h2><img src="images/moscabench.svg">
+      </section>
+      <section>
+        <h2>Offline Mode</h2>
+        <h3>First, subscribe with QoS 1 and disconnect</h3>
+        <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient({
+  clientId: "moscaslides",
+  clean: false
+});
+
+client.subscribe("mqtt/offline", { qos: 1 },
+  function() {
+  
+  alert("subscribe done!");
+  // called when the subscribe is successful
+  client.end();
+});
+</code></pre>
+      </section>
+      <section>
+        <h2>Offline Mode</h2>
+        <h3>Then, someone else publish an important message</h3>
+        <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient();
+
+client.publish("mqtt/offline", "hello world!",
+  function() {
+  
+  alert("publish done!");
+  client.end();
+});
+</code></pre>
+      </section>
+      <section>
+        <h2>Offline Mode</h2>
+        <h3>Reconnect to receive the missed messages</h3>
+        <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient({
+  clientId: "moscaslides",
+  clean: false
+});
+
+client.on("message", function(topic, payload) {
+  alert([topic, payload.toString()].join(": "));
+  
+  setTimeout(client.end.bind(client), 1000);
+});
+</code></pre>
+      </section>
+      <section>
+        <h2>Does Offline Mode Scale?</h2><img src="images/moscavsmosquitto.svg">
+      </section>
+      <section class="full-imgs">
+        <h2>Do you need a REST API?</h2>
+        <ul>
+          <li>Check out&nbsp;<a href="http://eclipse.org/ponte">Ponte</a>&nbsp;at&nbsp;<a href="http://eclipse.org/ponte">http://eclipse.org/ponte</a></li>
+          <li>$ npm install ponte -g</li>
+          <li><a href="http://eclipse.org/ponte"><img src="images/ponte.png"></a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>Ponte API</h2>
+        <ul>
+          <li>http://&#60;your ponte&#62;/resources/&#60;your thing&#62;</li>
+          <li>coap://&#60;your ponte&#62;/r/&#60;your thing&#62;</li>
+          <li>mqtt(s)://&#60;your ponte&#62;/&#60;your thing&#62;</li>
+        </ul>
+      </section>
+      <section class="full-imgs"><img src="images/me.png">
+        <h3><a href="http://github.com/mcollina">http://github.com/mcollina</a></h3>
+      </section>
+      <section>
+        <h1>Thanks!</h1><br>
+        <p>If you need help with node.js:</p><br>
+        <h3><a href="mailto:hello@matteocollina.com">hello@matteocollina.com</a></h3>
+        <h3><a href="http://twitter.com/matteocollina">@matteocollina</a> on Twitter</h3>
+        <h3><a href="http://www.matteocollina.com">www.matteocollina.com</a></h3>
+      </section>
+    </article>
+    <script src="scripts/scripts.js"></script>
+  </body>
+</html>
