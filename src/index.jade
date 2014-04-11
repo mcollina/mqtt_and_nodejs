@@ -113,126 +113,6 @@ html
             client.publish("mqtt/demo", "hello world!");
 
       section
-        h2 How can it work on a Browser?
-        ul
-          li Works on top of WebSocket
-          li Node.js excels at that :)
-          li MQTT over Websocket is 'standard'
-          li Thanks to&nbsp;
-            a(href="http://github.com/substack") @substack
-            | &nbsp;for Browserify
-
-      section
-        h2 The temperature in my hand
-        pre
-          code(data-bespoke-autorun).language-javascript.
-            var client = mqtt.createClient();
-
-            client.subscribe("sensortag/temperature");
-
-            client.on("message", function(topic, payload) {
-              alert([topic, payload].join(": "));
-              client.end();
-            });
-
-      section(data-bespoke-state='sensortag')
-        h2 SensorTag
-        ul.bullet
-          li Bluetooth Low Energy
-          li Works with your iPhone, Android or Laptop
-          li It has its own node.js module!
-          li works even as an iBeacon
-          li 25$ shipping included..
-          li by Texas Instruments
-
-      section
-        h2 Slide control using MQTT
-        ul.bullet
-          li The SensorTag is connected via BLE to a node program
-          li The button press events are published to topics 'deck/{next|prev}'
-          li This web app is connected via WebSocket to the MQTT broker..
-          li ..and triggers the sliding API.
-
-      section
-        h2 A humidity sensor!
-        p
-          i.fa.fa-umbrella.fa-5x
-          | &nbsp;
-          span#humidity.sensor-data
-          | &nbsp; %RH
-
-      section
-        h2 Infrared Temperature Sensor
-        p
-          | Object: &nbsp;
-          span#ir-object.sensor-data
-          | &nbsp; °C
-        p
-          | Ambient: &nbsp;
-          span#ir-ambient.sensor-data
-          | &nbsp; °C
-
-      section
-        h2 Let's get physical!
-
-      section
-        h2 OpenPicus Flyport
-        img(src="images/flyport.png", style="width: 100%")
-        ul.bullet
-          li from prototype to production
-          li real time and low power
-          li development time reduction with the free IDE
-
-      section
-        h2 Controlling a led bar
-
-        form.disabled
-          input#ledbar(type="number")
-
-      section
-        h2 Sensing a slider
-        p
-          i.fa.fa-chevron-circle-right.fa-5x
-          | &nbsp;
-          span#slider.sensor-data
-
-      section
-        h2 Controlling the leds!
-        div(style="clear: both")
-          i#led-red.fa.fa-lightbulb-o
-          i#led-green.fa.fa-lightbulb-o
-          i#led-blue.fa.fa-lightbulb-o
-          span#led-disable.fa-stack
-            i.fa.fa-lightbulb-o.fa-stack-1x
-            i.fa.fa-ban.fa-5x.fa-stack-2x.text-danger
-
-      section
-        h2 All together!
-        pre
-          code(data-bespoke-run).language-javascript.
-            var client = mqtt.createClient();
-
-            client.subscribe("groove/slider");
-            client.subscribe("groove/button");
-
-            client.on("message", function(topic, payload) {
-              if (topic === "groove/slider")
-                client.publish('groove/ledbar', JSON.stringify({
-                  value: JSON.parse(payload).value / 10
-                }))
-              if (topic === "groove/button")
-                return client.end();
-            });
-        a(data-bespoke-run) Run!
-
-      section
-        h2 Special Thanks
-        ul
-          li OpenPicus http://www.openpicus.com
-          li Stefano Saccuci https://www.linkedin.com/in/stefanosaccucci
-
-
-      section
         h2 Mosca
         h3 MQTT broker in Node.js
         ul
@@ -246,6 +126,16 @@ html
           li Support websockets
           li Fast, 10k+ messages routed per second
           li Scalable, 10k+ concurrent connections
+
+      section
+        h2 How can it work on a Browser?
+        ul
+          li Works on top of WebSocket
+          li Node.js excels at that :)
+          li MQTT over Websocket is 'standard'
+          li Thanks to&nbsp;
+            a(href="http://github.com/substack") @substack
+            | &nbsp;for Browserify
 
       section
         h2 Benchmark
@@ -328,25 +218,6 @@ html
         img(src='images/me.png')
         h3
           a(href='http://github.com/mcollina') http://github.com/mcollina
-
-      section
-        h2 Node.js Basics
-        h3 Un corso Node.js in Italiano
-        ul
-          li
-            a(href="http://www.insana-academy.com/node-js-basics/") http://www.insana-academy.com/node-js-basics/
-          li Milano 17-18 Maggio 2014
-          li Events, Streams, Buffer, HTTP, Ereditarietà
-          li Testing con Mocha, Chai e Sinon
-          li Express
-          li WebSocket
-          li Grunt
-          li MongoDB and Mongoose
-
-      section
-        h3 JavaScript Best Practices
-        a(href='http://www.jsbestpractices.it')
-          img(src='images/jsbestpractices.jpg', style='width: 250px')
 
       section
         h1 Thanks!
