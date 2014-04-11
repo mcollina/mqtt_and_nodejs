@@ -40,6 +40,10 @@ bespoke.plugins.mqtt = function(deck) {
       updateIrObject(payload)
     }
 
+    if (topic == 'sensortag/ir/ambient') {
+      updateIrAmbient(payload)
+    }
+
     if (topic == 'groove/slider') {
       updateSlider(JSON.parse(payload).value)
     }
