@@ -98,7 +98,7 @@ html
             client.publish("mqtt/demo", "hello world!");
 
       section
-        h2 Pattern Matching
+        h2 Pattern Matching '+'
         pre
           code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
@@ -111,6 +111,21 @@ html
             });
 
             client.publish("mqtt/demo", "hello world!");
+
+      section
+        h2 Pattern Matching '#'
+        pre
+          code(data-bespoke-autorun).language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("mqtt/#");
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload].join(": "));
+              client.end();
+            });
+
+            client.publish("mqtt/a/demo", "hello world!");
 
       section
         h2 How can it work on a Browser?
@@ -171,6 +186,35 @@ html
           | Ambient: &nbsp;
           span#ir-ambient.sensor-data
           | &nbsp; °C
+
+      section
+        h2 Retained Messages
+        h3 First, publish a message with the retain flag
+        pre
+          code(data-bespoke-autorun).language-javascript.
+            var client = mqtt.createClient();
+
+            client.publish("retain/msg", "hello world!",
+              { retain: true, qos: 1 },
+              function() {
+
+              alert("publish done!");
+              client.end();
+            });
+
+      section
+        h2 Retained Messages
+        h3 Then, someone else subscribes to the same topic
+        pre
+          code(data-bespoke-autorun).language-javascript.
+            var client = mqtt.createClient();
+
+            client.subscribe("retain/msg");
+
+            client.on("message", function(topic, payload) {
+              alert([topic, payload].join(": "));
+              client.end();
+            });
 
       section
         h2 Let's get physical!
