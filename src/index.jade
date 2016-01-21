@@ -167,7 +167,7 @@ html
           code(data-bespoke-autorun).language-javascript.
             var client = mqtt.createClient();
 
-            client.publish("mqtt/offline", "hello world!",
+            client.publish("mqtt/offline", "hello world!", {qos:1},
               function() {
 
               alert("publish done!");
