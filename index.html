@@ -142,7 +142,7 @@ client.subscribe("mqtt/offline", { qos: 1 },
         <h3>Then, someone else publish an important message</h3>
         <pre><code data-bespoke-autorun class="language-javascript">var client = mqtt.createClient();
 
-client.publish("mqtt/offline", "hello world!",
+client.publish("mqtt/offline", "hello world!", {qos:1},
   function() {
   
   alert("publish done!");
